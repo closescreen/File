@@ -158,7 +158,7 @@ export isworks
 isworks(\"aa.txt\", deb=false)
 or the same: isworks(\"aa.txt.FLAG\", deb=false)
 """
-function isworks(f, deb::Bool=false)
+function isworks(f, deb::Bool=false, warnings=false)
  debinfo = debinfofun(deb)
  fl = name(f)
  if isfile(fl)
@@ -170,9 +170,9 @@ function isworks(f, deb::Bool=false)
     debinfo("Flag file $fl content: $flag")
     pid = get(flag,"PID","")
     if isempty(pid)
-    warn("empty 'pid' key in flag $fl, unset flag...")
-    Flag.unset(fl)
-    return false
+        warnings && warn("empty 'pid' key in flag $fl, unset flag...")
+        Flag.unset(fl)
+        return false
     end 
     if Pid.isworks(pid, flag["HOSTFQDN"], deb=deb)
     return true
