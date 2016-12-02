@@ -277,13 +277,7 @@ end
 
 export iswait
 "iswait( filename ) -> Bool"
-function iswait{S<:AbstractString}(f::S)
-    fl = Flag.name(f)
-    if Flag.isworks(fl)
-    return true
-    end
-    false       
-end
+iswait( filename::AbstractString ) = Flag.isworks( filename )
 
 export istodo
 "istodo( filename ) -> Bool"
