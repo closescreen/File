@@ -32,7 +32,7 @@ isworks_local(pid::AbstractString; deb::Bool=false) -> Bool
 function isworks_local(pid::AbstractString; deb::Bool=false)
     debinfo::Function = debinfofun(deb)
     try cmd = `bash -c "
-        ( ps -A | grep $pid ) >/dev/null && echo YES || echo NO"`
+        ( ps -A | grep -P '\b$pid\b' ) >/dev/null && echo YES || echo NO"`
         cmdrv = readchomp(cmd)
         debinfo("""isworks_local($pid): Command '$cmd' 
         - returns '$cmdrv' """)
