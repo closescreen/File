@@ -181,17 +181,20 @@ function isworks(f, deb::Bool=false, warnings=false)
  false
 end
 
+export newcontent
+"Generates and returns Dict with new generated content for flag file."
+newcontent()::Dict = Dict("PID"=>getpid(),
+            "HOSTFQDN"=>OS.getfqdn(),
+            "USER"=>OS.getusername(),
+            "STARTED"=>now(),
+            "UUID"=>Base.Random.uuid4() )
+
 
 export set
 """
 set(filename::AbstractString; deb::Bool=false) -> Bool
 """
-set(f::AbstractString; deb::Bool=false) = set(f, 
-            Dict("PID"=>getpid(),
-            "HOSTFQDN"=>OS.getfqdn(),
-            "USER"=>OS.getusername(),
-            "STARTED"=>now()),
-            deb=deb)
+set(f::AbstractString; deb::Bool=false) = set(f, newcontent(), deb=deb)
 
 function set(f::AbstractString, d::Dict; deb::Bool=false)
  debinfo::Function = debinfofun(deb)
